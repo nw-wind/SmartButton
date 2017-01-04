@@ -58,6 +58,11 @@ class SmartButton {
       Serial.print("IDLE "); Serial.print(btPin); Serial.print(" ");
       Serial.print(st); Serial.print(" "); Serial.println(in);
       btState = Idle;
+      switch (st) {
+        case Click: offClick(); break;
+        case Hold: offHold(); break;
+        case LongHold: offLongHold(); break;
+      }
     }
     void ToForcedIdle(enum state st, enum input in) {
       Serial.print("Forced IDLE "); Serial.print(btPin); Serial.print(" ");
@@ -67,27 +72,33 @@ class SmartButton {
     void ToClick(enum state st, enum input in) {
       Serial.println("Click");
       btState = Click;
+      onClick();
     }
     void ToHold(enum state st, enum input in) {
       Serial.println("Hold");
       btState = Hold;
+      onHold();
     }
     void ToLongHold(enum state st, enum input in) {
       Serial.println("LongHold");
       btState = LongHold;
+      onLongHold();
     }
   public:
     SmartButton();
-    SmartButton(byte pin);
+    SmartButton(int pin);
     ~SmartButton();
     void run();
     inline virtual void onClick() {};
     inline virtual void onHold() {};
     inline virtual void onLongHold() {};
+    inline virtual void offClick() {};
+    inline virtual void offHold() {};
+    inline virtual void offLongHold() {};
 };
 SmartButton::SmartButton() {}
 SmartButton::~SmartButton() {}
-SmartButton::SmartButton(byte pin) {
+SmartButton::SmartButton(int pin) {
   btPin = pin;
   pinMode(pin, INPUT_PULLUP);
 }
@@ -128,12 +139,26 @@ byte menuCurrent = 0;
 #define MENU_ON  1
 byte menuMode = MENU_OFF;
 
-class mySmartButton: public SmartButton {
+class modeSmartButton: public SmartButton {
   public:
+  modeSmartButton(int p) : SmartButton(p) {}
     virtual void onClick();
+    virtual void offClick();
 };
-void mySmartButton::onClick() {
-  //Serial.println("ON CLICK");
+
+void modeSmartButton::onClick() {
+  Serial.println("MODE ON CLICK");
+  if (menuMode==MENU_OFF) {
+    menuMode=MENU_ON;
+    printAt(0,1,"MENU MODE");
+  }
+  else {
+    menuMode=MENU_OFF;
+    printAt(0,1,"         ");
+  }
+}
+void modeSmartButton::offClick() {
+  Serial.println("MODE OFF CLICK");
 }
 
 // Test object
@@ -209,7 +234,7 @@ SmartDelay d2(100000 * 27);
 SmartDelay d3(100000 * 7);
 SmartDelay d4(100000 * 15);
 
-SmartButton btMode(6);
+modeSmartButton btMode(6);
 SmartButton btUp(7);
 SmartButton btDn(8);
 SmartButton btOk(9);
