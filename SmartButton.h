@@ -53,12 +53,14 @@ class SmartButton {
     ~SmartButton();
     void run();
     // Methods to redefine by user.
-    inline virtual void onClick() {};
-    inline virtual void onHold() {};
-    inline virtual void onLongHold() {};
-    inline virtual void offClick() {};
-    inline virtual void offHold() {};
-    inline virtual void offLongHold() {};
+    inline virtual void onClick() {};       // On click.
+    inline virtual void onHold() {};        // On hold.
+    inline virtual void onLongHold() {};    // On long hold.
+    inline virtual void onIdle() {};        // On timeout with too long key pressing.
+    inline virtual void offClick() {};      // On depress after click.
+    inline virtual void offHold() {};       // On depress after hold.
+    inline virtual void offLongHold() {};   // On depress after long hold.
+    inline virtual void offIdle() {};       // On depress after too long key pressing.
 };
 
 #endif

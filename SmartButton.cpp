@@ -36,6 +36,7 @@ void SmartButton::ToIdle(enum state st, enum input in) {
     case Click: offClick(); break;
     case Hold: offHold(); break;
     case LongHold: offLongHold(); break;
+    case WaitIdle: onIdle(); break;
   }
 }
 void SmartButton::ToForcedIdle(enum state st, enum input in) {
