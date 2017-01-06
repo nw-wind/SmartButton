@@ -1,6 +1,12 @@
 #ifndef SMART_BUTTON_H
 #define SMART_BUTTON_H
 
+#if ARDUINO >= 100
+ #include <Arduino.h>
+#else
+ #include <WProgram.h>
+#endif
+
 #include <SmartDelay.h>
 
 // User can define his own timings
@@ -46,6 +52,7 @@ class SmartButton {
     SmartButton(int pin);
     ~SmartButton();
     void run();
+    // Methods to redefine by user.
     inline virtual void onClick() {};
     inline virtual void onHold() {};
     inline virtual void onLongHold() {};
@@ -53,6 +60,5 @@ class SmartButton {
     inline virtual void offHold() {};
     inline virtual void offLongHold() {};
 };
-
 
 #endif
