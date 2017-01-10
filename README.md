@@ -2,8 +2,6 @@
 
 Extendable class to handle buttons and make own behavior. 
 
-Required: SmartDelay (https://github.com/nw-wind/SmartDelay)
-
 The idea is to make a class which you can not use as is but you should extend with your own functionality.
 
 The base class SmartButton has private methods only. All public are virtual, empty and should be overloaded to use.
@@ -63,7 +61,8 @@ Now please put anywhere in the main loop the run() call. Note! You should not us
 I'm sorry, now the digital port set as INPUT_PULLUP by default. Be sure you switch your button to the ground clicking.
     
 Todo:
-- Double click.
-- Triple click.
 - Pass pin modes in constructor.
 - Add begin(pin,mode) method.
+- Double click.
+- Triple click.
+
