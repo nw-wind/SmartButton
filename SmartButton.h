@@ -7,8 +7,6 @@
  #include <WProgram.h>
 #endif
 
-#include <SmartDelay.h>
-
 // User can define his own timings
 #ifndef SmartButton_debounce
 #define SmartButton_debounce 10
