@@ -2,11 +2,6 @@
 
 // SmartButton
 
-#define SmartButton_debounce 10
-#define SmartButton_hold 1000
-#define SmartButton_long 5000
-#define SmartButton_idle 10000
-
 SmartButton::SmartButton() {}
 SmartButton::~SmartButton() {}
 SmartButton::SmartButton(int pin) {
