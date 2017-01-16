@@ -116,7 +116,7 @@ void loop() {
   btDown.run();
   btOK.run();
   if (checkSpeed.Now()) {
-    if (velo > 5) bg.speedOn();
+    if (digitalRead(2)) bg.speedOn();
     else bg.speedOff();
   }
   if (checkDisp.Now()) {
