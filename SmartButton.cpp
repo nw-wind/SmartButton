@@ -10,50 +10,80 @@ SmartButton::SmartButton(int pin) {
 }
 // Private
 void SmartButton::DoAction(enum state st, enum input in) {
-  if (action[st][in] == NULL) {
-    //Serial.println("NULL action");
-    return;
+  /*
+  static enum state ost=stDebug;
+  static enum input oin=inDebug;
+  if (ost!=st || oin!=in) {
+    Serial.print("DO "); Serial.print(st); Serial.print(" "); Serial.println(in);
+    ost=st; oin=in;
   }
-  //Serial.print("Do action "); Serial.print(btPin); Serial.print(" ");
-  //Serial.print(st); Serial.print(" "); Serial.println(in);
-  (this->*(action[st][in]))(st, in);
-}
-void SmartButton::ToPreClick(enum state st, enum input in) {
-  //Serial.println("Pre Click");
-  pressTimeStamp = millis();
-  btState = PreClick;
-}
-void SmartButton::ToIdle(enum state st, enum input in) {
-  //Serial.print("IDLE "); Serial.print(btPin); Serial.print(" ");
-  //Serial.print(st); Serial.print(" "); Serial.println(in);
-  btState = Idle;
-  switch (st) {
-    case Click: offClick(); break;
-    case Hold: offHold(); break;
-    case LongHold: offLongHold(); break;
-    case ForcedIdle: onIdle(); break;
+  */
+  switch (in) {
+    case Release:
+      //Serial.println("Release");
+      btState=Idle;
+      switch (st) {
+        case Click: 
+          offClick(); 
+          break;
+        case Hold: 
+          offHold(); 
+          break;
+        case LongHold: 
+          offLongHold(); 
+          break;
+        case ForcedIdle: 
+          onIdle(); 
+          break;
+      }
+      break;
+    case WaitDebounce:
+      switch (st) {
+        case PreClick:
+          //Serial.println("Click");
+          btState=Click;
+          onClick();
+          break;
+      }
+      break;
+    case WaitHold:
+      switch (st) {
+        case Click:
+          //Serial.println("Hold");
+          btState=Hold;
+          onHold();
+          break;
+      }
+      break;
+    case WaitLongHold:
+      switch (st) {
+        case Hold:
+          //Serial.println("Long");
+          btState=LongHold;
+          onLongHold();
+          break;
+      }
+      break;
+    case WaitIdle:
+      switch (st) {
+        case LongHold:
+          //Serial.println("ForcedIdle");
+          btState=ForcedIdle;
+          break;
+      }
+      break;
+    case Press:
+      switch (st) {
+        case Idle:
+          //Serial.println("Press");
+          pressTimeStamp=millis();
+          btState=PreClick;
+          break;
+      }
+      break;
   }
 }
-void SmartButton::ToForcedIdle(enum state st, enum input in) {
-  //Serial.print("Forced IDLE "); Serial.print(btPin); Serial.print(" ");
-  //Serial.print(st); Serial.print(" "); Serial.println(in);
-  btState = ForcedIdle;
-}
-void SmartButton::ToClick(enum state st, enum input in) {
-  //Serial.println("Click");
-  btState = Click;
-  onClick();
-}
-void SmartButton::ToHold(enum state st, enum input in) {
-  //Serial.println("Hold");
-  btState = Hold;
-  onHold();
-}
-void SmartButton::ToLongHold(enum state st, enum input in) {
-  //Serial.println("LongHold");
-  btState = LongHold;
-  onLongHold();
-}
+
 // Public
 void SmartButton::run() {
   unsigned long mls = millis();

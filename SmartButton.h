@@ -21,36 +21,30 @@
 #define SmartButton_idle 10000
 #endif
 
+
 class SmartButton {
   private:
     byte btPin;
-    enum state {Idle = 0, PreClick, Click, Hold, LongHold, ForcedIdle, StatesNumber};
-    enum input {Release = 0, WaitDebounce, WaitHold, WaitLongHold, WaitIdle, Press, InputsNumber};
-    typedef void (SmartButton::*FSM)(enum state st, enum input in);
+    enum state {Idle = 0, PreClick, Click, Hold, LongHold, ForcedIdle, stDebug};
+    enum input {Release = 0, WaitDebounce, WaitHold, WaitLongHold, WaitIdle, Press, inDebug};
     enum state btState = Idle;
     enum input btInput = Release;
     unsigned long pressTimeStamp;
-    FSM action[StatesNumber][InputsNumber] = {
-      {NULL, NULL, NULL, NULL, NULL, &SmartButton::ToPreClick},
-      {&SmartButton::ToIdle, &SmartButton::ToClick, NULL, NULL, NULL, NULL},
-      {&SmartButton::ToIdle, NULL, &SmartButton::ToHold, NULL, NULL, NULL},
-      {&SmartButton::ToIdle, NULL, NULL, &SmartButton::ToLongHold, NULL, NULL},
-      {&SmartButton::ToIdle, NULL, NULL, NULL, &SmartButton::ToForcedIdle, NULL},
-      {&SmartButton::ToIdle, NULL, NULL, NULL, NULL, NULL}
-    };
+
+  private:
     void DoAction(enum state st, enum input in);
-    void ToPreClick(enum state st, enum input in);
-    void ToIdle(enum state st, enum input in);
-    void ToForcedIdle(enum state st, enum input in);
-    void ToClick(enum state st, enum input in);
-    void ToHold(enum state st, enum input in);
-    void ToLongHold(enum state st, enum input in);
+    inline void setState(enum state st) {btState=st;}
+    inline void setPressTimeStamp(unsigned long ts) {pressTimeStamp=ts;}
+    
   public:
     SmartButton();
     SmartButton(int pin);
     ~SmartButton();
+    inline void begin(int p, int m) {btPin=p; pinMode(p,m);}
     void run();
+    
     // Methods to redefine by user.
+  public:
     inline virtual void onClick() {};       // On click.
     inline virtual void onHold() {};        // On hold.
     inline virtual void onLongHold() {};    // On long hold.
