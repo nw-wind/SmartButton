@@ -14,11 +14,6 @@ byte menuMode = MENU_OFF;
 // New class based on Smartbutton
 class modeSmartButton: public SmartButton {
   public:
-    modeSmartButton(int p) : SmartButton(p) {}
-    modeSmartButton(int p, int m) : SmartButton(p,m) {}
-    virtual void begin(int p, int m) {
-      SmartButton::begin(p, m);
-    }
     virtual void onClick();		// Methods to redefine
     virtual void offClick();	// You will use only these 2 methods
 };
@@ -40,13 +35,12 @@ void modeSmartButton::offClick() {
   Serial.println("Key depressed.");
 }
 
-// The object. Pin 6 used as input.
-modeSmartButton btMode(6,INPUT_PULLUP);
+modeSmartButton btMode;
 
 void setup() {
   Serial.begin(115200);
   Serial.println("Ready");
-  //btMode.begin(6, INPUT_PULLUP);
+  btMode.begin(6, INPUT_PULLUP); // The object. Pin 6 used as input.
 }
 
 void loop() {

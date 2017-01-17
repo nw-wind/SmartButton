@@ -41,7 +41,7 @@ class SmartButton {
     SmartButton(int pin);
     SmartButton(int pin, int mode) {btPin=pin; pinMode(pin,mode);}
     ~SmartButton();
-    virtual void begin(int p, int m) {btPin=p; pinMode(p,m);}
+    void begin(int p, int m) {btPin=p; pinMode(p,m);}
     void run();
     
     // Methods to redefine by user.
