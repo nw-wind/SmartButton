@@ -33,14 +33,15 @@ class SmartButton {
 
   private:
     void DoAction(enum state st, enum input in);
-    inline void setState(enum state st) {btState=st;}
-    inline void setPressTimeStamp(unsigned long ts) {pressTimeStamp=ts;}
+    //inline void setState(enum state st) {btState=st;}
+    //inline void setPressTimeStamp(unsigned long ts) {pressTimeStamp=ts;}
     
   public:
     SmartButton();
     SmartButton(int pin);
+    SmartButton(int pin, int mode) {btPin=pin; pinMode(pin,mode);}
     ~SmartButton();
-    inline void begin(int p, int m) {btPin=p; pinMode(p,m);}
+    virtual void begin(int p, int m) {btPin=p; pinMode(p,m);}
     void run();
     
     // Methods to redefine by user.

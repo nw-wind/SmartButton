@@ -61,7 +61,7 @@ Now please put anywhere in the main loop the run() call. Note! You should not us
 I'm sorry, now the digital port set as INPUT_PULLUP by default. Be sure you switch your button to the ground clicking.
     
 Todo:
-- Pass pin modes in constructor.
+- Inheritable begin(pin,mode) function.
 - Double click.
 - Triple click.
 
