@@ -62,7 +62,6 @@ I'm sorry, now the digital port set as INPUT_PULLUP by default. Be sure you swit
     
 Todo:
 - Pass pin modes in constructor.
-- Add begin(pin,mode) method.
 - Double click.
 - Triple click.
 
