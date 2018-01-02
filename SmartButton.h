@@ -32,7 +32,7 @@ class SmartButton {
     unsigned long pressTimeStamp;
 
   private:
-    void DoAction(enum state st, enum input in);
+    void DoAction(enum input in);
     //inline void setState(enum state st) {btState=st;}
     //inline void setPressTimeStamp(unsigned long ts) {pressTimeStamp=ts;}
     

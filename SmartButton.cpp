@@ -9,7 +9,7 @@ SmartButton::SmartButton(int pin) {
   pinMode(pin, INPUT_PULLUP);
 }
 // Private
-void SmartButton::DoAction(enum state st, enum input in) {
+void SmartButton::DoAction(enum input in) {
   /*
   static enum state ost=stDebug;
   static enum input oin=inDebug;
@@ -18,6 +18,7 @@ void SmartButton::DoAction(enum state st, enum input in) {
     ost=st; oin=in;
   }
   */
+  enum state st=btState;
   switch (in) {
     case Release:
       //Serial.println("Release");
@@ -88,29 +89,11 @@ void SmartButton::DoAction(enum state st, enum input in) {
 void SmartButton::run() {
   unsigned long mls = millis();
   //Serial.print("Run "); Serial.println(btState);
-  if (!digitalRead(btPin)) {
-    if (btState == Idle) {
-      DoAction(btState, Press);
-      return;
-    }
-    if (mls - pressTimeStamp > SmartButton_debounce) {
-      DoAction(btState, WaitDebounce);
-    }
-    if (mls - pressTimeStamp > SmartButton_hold) {
-      DoAction(btState, WaitHold);
-    }
-    if (mls - pressTimeStamp > SmartButton_long) {
-      DoAction(btState, WaitLongHold);
-    }
-    if (mls - pressTimeStamp > SmartButton_idle) {
-      DoAction(btState, WaitIdle);
-    }
-    return;
-  } else {
-    if (btState != Idle) {
-      DoAction(btState, Release);
-      return;
-    }
-  }
+  if (!digitalRead(btPin))  DoAction(Press);
+  else  DoAction(Release);
+  if (mls - pressTimeStamp > SmartButton_debounce) DoAction(WaitDebounce);
+  if (mls - pressTimeStamp > SmartButton_hold) DoAction(WaitHold);
+  if (mls - pressTimeStamp > SmartButton_long) DoAction(WaitLongHold);
+  if (mls - pressTimeStamp > SmartButton_idle) DoAction(WaitIdle);
 }
 
