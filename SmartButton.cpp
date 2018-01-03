@@ -20,65 +20,65 @@ void SmartButton::DoAction(enum input in) {
   */
   enum state st=btState;
   switch (in) {
-    case Release:
+    case input::Release:
       //Serial.println("Release");
-      btState=Idle;
+      btState=state::Idle;
       switch (st) {
-        case Click: 
+        case state::Click: 
           offClick(); 
           break;
-        case Hold: 
+        case state::Hold: 
           offHold(); 
           break;
-        case LongHold: 
+        case state::LongHold: 
           offLongHold(); 
           break;
-        case ForcedIdle: 
+        case state::ForcedIdle: 
           onIdle(); 
           break;
       }
       break;
-    case WaitDebounce:
+    case input::WaitDebounce:
       switch (st) {
-        case PreClick:
+        case state::PreClick:
           //Serial.println("Click");
-          btState=Click;
+          btState=state::Click;
           onClick();
           break;
       }
       break;
-    case WaitHold:
+    case input::WaitHold:
       switch (st) {
-        case Click:
+        case state::Click:
           //Serial.println("Hold");
-          btState=Hold;
+          btState=state::Hold;
           onHold();
           break;
       }
       break;
-    case WaitLongHold:
+    case input::WaitLongHold:
       switch (st) {
-        case Hold:
+        case state::Hold:
           //Serial.println("Long");
-          btState=LongHold;
+          btState=state::LongHold;
           onLongHold();
           break;
       }
       break;
-    case WaitIdle:
+    case input::WaitIdle:
       switch (st) {
-        case LongHold:
+        case state::LongHold:
           //Serial.println("ForcedIdle");
-          btState=ForcedIdle;
+          btState=state::ForcedIdle;
           break;
       }
       break;
-    case Press:
+    case input::Press:
       switch (st) {
-        case Idle:
+        case state::Idle:
           //Serial.println("Press");
           pressTimeStamp=millis();
-          btState=PreClick;
+          btState=state::PreClick;
           break;
       }
       break;
@@ -89,11 +89,11 @@ void SmartButton::DoAction(enum input in) {
 void SmartButton::run() {
   unsigned long mls = millis();
   //Serial.print("Run "); Serial.println(btState);
-  if (!digitalRead(btPin))  DoAction(Press);
-  else  DoAction(Release);
-  if (mls - pressTimeStamp > SmartButton_debounce) DoAction(WaitDebounce);
-  if (mls - pressTimeStamp > SmartButton_hold) DoAction(WaitHold);
-  if (mls - pressTimeStamp > SmartButton_long) DoAction(WaitLongHold);
-  if (mls - pressTimeStamp > SmartButton_idle) DoAction(WaitIdle);
+  if (!digitalRead(btPin))  DoAction(input::Press);
+  else  DoAction(input::Release);
+  if (mls - pressTimeStamp > SmartButton_debounce) DoAction(input::WaitDebounce);
+  if (mls - pressTimeStamp > SmartButton_hold) DoAction(input::WaitHold);
+  if (mls - pressTimeStamp > SmartButton_long) DoAction(input::WaitLongHold);
+  if (mls - pressTimeStamp > SmartButton_idle) DoAction(input::WaitIdle);
 }
 

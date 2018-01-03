@@ -25,10 +25,10 @@
 class SmartButton {
   private:
     byte btPin;
-    enum state {Idle = 0, PreClick, Click, Hold, LongHold, ForcedIdle, stDebug};
-    enum input {Release = 0, WaitDebounce, WaitHold, WaitLongHold, WaitIdle, Press, inDebug};
-    enum state btState = Idle;
-    enum input btInput = Release;
+    enum class state : byte  {Idle, PreClick, Click, Hold, LongHold, ForcedIdle, stDebug};
+    enum class input : byte {Release, WaitDebounce, WaitHold, WaitLongHold, WaitIdle, Press, inDebug};
+    state btState = state::Idle;
+    input btInput = input::Release;
     unsigned long pressTimeStamp;
 
   private:
