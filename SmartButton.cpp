@@ -9,21 +9,20 @@ SmartButton::SmartButton(int pin) {
   pinMode(pin, INPUT_PULLUP);
 }
 // Private
-void SmartButton::DoAction(enum input in) {
+void SmartButton::DoAction(input in) {
   /*
-  static enum state ost=stDebug;
-  static enum input oin=inDebug;
-  if (ost!=st || oin!=in) {
-    Serial.print("DO "); Serial.print(st); Serial.print(" "); Serial.println(in);
-    ost=st; oin=in;
+  btStateatic enum state obtState=btStateDebug;
+  btStateatic enum input oin=inDebug;
+  if (obtState!=btState || oin!=in) {
+    Serial.print("DO "); Serial.print(btState); Serial.print(" "); Serial.println(in);
+    obtState=btState; oin=in;
   }
   */
-  enum state st=btState;
   switch (in) {
     case input::Release:
       //Serial.println("Release");
       btState=state::Idle;
-      switch (st) {
+      switch (btState) {
         case state::Click: 
           offClick(); 
           break;
@@ -39,7 +38,7 @@ void SmartButton::DoAction(enum input in) {
       }
       break;
     case input::WaitDebounce:
-      switch (st) {
+      switch (btState) {
         case state::PreClick:
           //Serial.println("Click");
           btState=state::Click;
@@ -48,7 +47,7 @@ void SmartButton::DoAction(enum input in) {
       }
       break;
     case input::WaitHold:
-      switch (st) {
+      switch (btState) {
         case state::Click:
           //Serial.println("Hold");
           btState=state::Hold;
@@ -57,7 +56,7 @@ void SmartButton::DoAction(enum input in) {
       }
       break;
     case input::WaitLongHold:
-      switch (st) {
+      switch (btState) {
         case state::Hold:
           //Serial.println("Long");
           btState=state::LongHold;
@@ -66,7 +65,7 @@ void SmartButton::DoAction(enum input in) {
       }
       break;
     case input::WaitIdle:
-      switch (st) {
+      switch (btState) {
         case state::LongHold:
           //Serial.println("ForcedIdle");
           btState=state::ForcedIdle;
@@ -74,7 +73,7 @@ void SmartButton::DoAction(enum input in) {
       }
       break;
     case input::Press:
-      switch (st) {
+      switch (btState) {
         case state::Idle:
           //Serial.println("Press");
           pressTimeStamp=millis();
@@ -88,7 +87,6 @@ void SmartButton::DoAction(enum input in) {
 // Public
 void SmartButton::run() {
   unsigned long mls = millis();
-  //Serial.print("Run "); Serial.println(btState);
   if (!digitalRead(btPin))  DoAction(input::Press);
   else  DoAction(input::Release);
   if (mls - pressTimeStamp > SmartButton_debounce) DoAction(input::WaitDebounce);
