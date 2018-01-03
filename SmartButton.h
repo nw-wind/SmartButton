@@ -25,15 +25,13 @@
 class SmartButton {
   private:
     byte btPin;
-    enum class state : byte  {Idle, PreClick, Click, Hold, LongHold, ForcedIdle, stDebug};
-    enum class input : byte {Release, WaitDebounce, WaitHold, WaitLongHold, WaitIdle, Press, inDebug};
+    enum class state : byte  {Idle, PreClick, Click, Hold, LongHold, ForcedIdle};
+    enum class input : byte {Release, WaitDebounce, WaitHold, WaitLongHold, WaitIdle, Press};
     state btState;
     unsigned int pressTimeStamp;
 
   private:
     void DoAction(input in);
-    //inline void setState(enum state st) {btState=st;}
-    //inline void setPressTimeStamp(unsigned long ts) {pressTimeStamp=ts;}
     
   public:
     SmartButton();
@@ -43,7 +41,7 @@ class SmartButton {
     void begin(int p, int m) {btPin=p; pinMode(p,m);}
     void run();
     
-    // Methods to redefine by user.
+  // Methods to redefine by user.
   public:
     inline virtual void onClick() {};       // On click.
     inline virtual void onHold() {};        // On hold.

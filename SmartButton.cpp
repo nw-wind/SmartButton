@@ -13,14 +13,6 @@ SmartButton::SmartButton(int pin) {
 }
 // Private
 void SmartButton::DoAction(input in) {
-  /*
-  btStateatic enum state obtState=btStateDebug;
-  btStateatic enum input oin=inDebug;
-  if (obtState!=btState || oin!=in) {
-    Serial.print("DO "); Serial.print(btState); Serial.print(" "); Serial.println(in);
-    obtState=btState; oin=in;
-  }
-  */
   switch (in) {
     case input::Release:
       //Serial.println("Release");
