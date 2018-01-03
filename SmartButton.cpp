@@ -2,9 +2,12 @@
 
 // SmartButton
 
-SmartButton::SmartButton() {}
+SmartButton::SmartButton() {
+  btState = state::Idle;
+}
 SmartButton::~SmartButton() {}
 SmartButton::SmartButton(int pin) {
+  btState = state::Idle;
   btPin = pin;
   pinMode(pin, INPUT_PULLUP);
 }
@@ -76,7 +79,7 @@ void SmartButton::DoAction(input in) {
       switch (btState) {
         case state::Idle:
           //Serial.println("Press");
-          pressTimeStamp=millis();
+          pressTimeStamp=0xFFFF & millis();
           btState=state::PreClick;
           break;
       }
@@ -86,7 +89,7 @@ void SmartButton::DoAction(input in) {
 
 // Public
 void SmartButton::run() {
-  unsigned long mls = millis();
+  unsigned int mls = 0xFFFF & millis();
   if (!digitalRead(btPin))  DoAction(input::Press);
   else  DoAction(input::Release);
   if (mls - pressTimeStamp > SmartButton_debounce) DoAction(input::WaitDebounce);
