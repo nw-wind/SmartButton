@@ -1,6 +1,6 @@
 {
   "name": "SmartButton",
-  "keywords": "button, abstract class, oop",
+  "keywords": "button,abstract,class,oop",
   "description": "The SmartButton abstract class for using custom buttons in Arduino sketches.",
   "repository": {
     "type": "git",
