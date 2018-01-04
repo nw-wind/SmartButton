@@ -4,7 +4,7 @@
   "description": "The SmartButton abstract class for using custom buttons in Arduino sketches.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nw-wind/SmartButton"
+    "url": "https://github.com/nw-wind/SmartButton.git"
   },
   "version": "1.0.0",
   "authors": {
