@@ -6,10 +6,11 @@
     "type": "git",
     "url": "https://github.com/nw-wind/SmartButton.git"
   },
-  "version": "1.0.0",
+  "version": "0.9.1",
   "authors": {
     "name": "Sergei Keler",
-    "url": "https://github.com/nw-wind"
+    "url": "https://github.com/nw-wind",
+    "maintainer": true
   },
   "frameworks": "arduino",
   "platforms": "*"
